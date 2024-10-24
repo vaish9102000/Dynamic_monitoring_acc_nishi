@@ -1,1 +1,1 @@
-variable "SNS_TOPIC_ARN" {}
+# variable "SNS_TOPIC_ARN" {}
