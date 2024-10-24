@@ -1,0 +1,33 @@
+# version: 0.2
+ 
+# phases:
+#   install:
+#     runtime-versions:
+#       powershell: latest
+#     commands:
+#       - choco install terraform -y
+ 
+#   pre_build:
+#     commands:
+#       # - PowerShell -Command "Install-PackageProvider -Name NuGet -Force -Scope CurrentUser"
+#       # - PowerShell -Command "Install-Module -Name AWSPowerShell -Force -AllowClobber -Scope CurrentUser"
+#       # - PowerShell -Command "Import-Module AWSPowerShell"
+#       - terraform --version
+#       - terraform init
+#       #- terraform workspace new "eu-central-1"
+#       # - powershell -File ./CloudWatchAgent/CheckSSM.ps1
+
+
+#   build:
+#     commands:
+#     #   - terraform workspace select eu-central-1
+#     #   - terraform apply -var="aws_region=eu-central-1" -auto-approve
+#       - terraform apply -auto-approve
+       
+# # artifacts:
+# #   files:
+# #     - 'terraform.*'  
+
+
+
+    
