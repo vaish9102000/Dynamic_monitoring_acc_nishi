@@ -3,7 +3,7 @@
 # # }
 module "Lambda" {
   source = "./Lambda"
-  SNS_TOPIC_ARN = module.Config.SNS_TOPIC_ARN
+  SNS_TOPIC_ARN = module.SNS-SQS.SNS_TOPIC_ARN
 }
 
 
