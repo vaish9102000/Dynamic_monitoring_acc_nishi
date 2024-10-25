@@ -110,7 +110,7 @@ environment {
 }
 
 # Create the Lambda function 2
-resource "aws_lambda_function" "ec2_monitoring_function" {
+resource "aws_lambda_function" "ec2_monitoring_function1" {
   function_name = "EC2MonitoringFunction1"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.9"
