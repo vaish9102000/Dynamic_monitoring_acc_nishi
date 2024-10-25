@@ -1,10 +1,10 @@
 # # module "AWS_EC2" {
 # #   source = "./AWS_EC2"
 # # }
-module "Lambda" {
-  source = "./Lambda"
-  SNS_TOPIC_ARN = module.SNS-SQS.SNS_TOPIC_ARN
-}
+# module "Lambda" {
+#   source = "./Lambda"
+#   SNS_TOPIC_ARN = module.SNS-SQS.SNS_TOPIC_ARN
+# }
 
 
 
