@@ -62,7 +62,17 @@ resource "aws_iam_role_policy" "sqs_policy" {
                 "cloudwatch:UpdateServiceLevelObjective",
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
-                "logs:PutLogEvents"
+                "logs:PutLogEvents",
+                "sqs:GetQueueUrl",
+                "sqs:ReceiveMessage",
+                "sqs:SendMessage",
+                "sqs:DeleteMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueues",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "sns:*"
             ],
             "Resource": [
                 "*"
