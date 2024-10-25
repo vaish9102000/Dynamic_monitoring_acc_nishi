@@ -3,7 +3,7 @@
 # # }
 module "Lambda" {
   source = "./Lambda"
-  
+  SNS_TOPIC_ARN = module.Config.SNS_TOPIC_ARN
 }
 
 
@@ -35,6 +35,6 @@ module "Lambda" {
 #   value = module.aws_s3_bucket.this_s3_bucket_id
 # }
  
-#  module "SNS-SQS" {
-#    source = "./SNS-SQS"
-#  }
+ module "SNS-SQS" {
+   source = "./SNS-SQS"
+ }

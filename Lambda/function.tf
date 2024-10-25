@@ -59,7 +59,10 @@ resource "aws_iam_role_policy" "sqs_policy" {
                 "cloudwatch:SetAlarmState",
                 "cloudwatch:StartMetricStreams",
                 "cloudwatch:StopMetricStreams",
-                "cloudwatch:UpdateServiceLevelObjective"
+                "cloudwatch:UpdateServiceLevelObjective",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
             ],
             "Resource": [
                 "*"
@@ -69,12 +72,6 @@ resource "aws_iam_role_policy" "sqs_policy" {
 })
 }
  
-# Attach policies to the IAM role
-resource "aws_iam_policy_attachment" "lambda_policy" {
-  name       = "LambdaPolicyAttachment"
-  roles = [aws_iam_role.lambda_execution_role.name]
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
 
 data "archive_file" "zipit" {
   type        = "zip"
@@ -95,11 +92,11 @@ resource "aws_lambda_function" "ec2_monitoring_function" {
  filename = "lambda_function.zip"  # Zip file containing your function code
 source_code_hash = "${data.archive_file.zipit.output_base64sha256}"
 
-# environment {
-#   variables = {
-#     SNS_TOPIC_ARN = var.SNS_TOPIC_ARN
-#   }
-# }
+environment {
+  variables = {
+    SNS_TOPIC_ARN = var.SNS_TOPIC_ARN
+  }
+}
 }
  
 # CloudWatch Event Rule to trigger the Lambda function periodically

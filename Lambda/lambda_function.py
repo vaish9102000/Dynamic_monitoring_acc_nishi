@@ -167,7 +167,7 @@ def create_alarm(resource, metric, threshold, alarm_name, alarm_type):
             EvaluationPeriods=1,
             Threshold=threshold,
             ComparisonOperator='GreaterThanThreshold',
-            AlarmActions=[],
+            AlarmActions=[os.environ.get('SNS_TOPIC_ARN')],
             TreatMissingData='missing'
         )
         logger.info(f'Created {alarm_type} alarm {alarm_name} for {metric["Service"]} resource {resource}')
