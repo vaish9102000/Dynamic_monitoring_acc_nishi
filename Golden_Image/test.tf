@@ -1,4 +1,29 @@
 
+# Golden AMI EC2 Instance with SSM and CloudWatch Agent
+resource "aws_instance" "golden_ami_instance" {
+  count                = 1
+  ami                  = var.golden_ami_ids[var.selected_ami_index]
+  instance_type        = "t2.micro"
+  key_name             = aws_key_pair.my_key_pair.key_name
+  iam_instance_profile = aws_iam_instance_profile.ec2_ssm_cw_profile.name
+  security_groups      = [aws_security_group.allow_ssh.name]
+ 
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y amazon-ssm-agent
+              systemctl enable amazon-ssm-agent
+              systemctl start amazon-ssm-agent
+              
+              yum install -y amazon-cloudwatch-agent
+              echo '${data.template_file.cw_agent_config.rendered}' > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+              /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
+              EOF
+ 
+  tags = {
+    Name = "Golden-AMI-Instance-${count.index + 1}"
+  }
+}
 # IAM Role for SSM and CloudWatch Agents
 resource "aws_iam_role" "ec2_ssm_cw_role" {
   name = "EC2SSMandCWRole"
@@ -193,14 +218,19 @@ resource "aws_instance" "example" {
   }
 }
 
-resource "tls_private_key" "example" {
+resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
-  rsa_bits = 2048
+  rsa_bits  = 2048
 }
-
+ 
 resource "aws_key_pair" "my_key_pair" {
-  key_name   = "sse-key-pair"  # Change to your desired key pair name
-  public_key = tls_private_key.example.public_key_pem  
+  key_name   = "MyKeyPair"
+  public_key = tls_private_key.ssh_key.public_key_openssh
+}
+ 
+output "private_key_pem" {
+  value     = tls_private_key.ssh_key.private_key_pem
+  sensitive = true
 }
 
 # Create a custom security group
