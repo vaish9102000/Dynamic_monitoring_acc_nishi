@@ -193,9 +193,14 @@ resource "aws_instance" "example" {
   }
 }
 
+resource "tls_private_key" "example" {
+  algorithm = "RSA"
+  rsa_bits = 2048
+}
+
 resource "aws_key_pair" "my_key_pair" {
   key_name   = "sse-key-pair"  # Change to your desired key pair name
-  public_key = file("~/.ssh/id_rsa.pub")  
+  public_key = tls_private_key.example.public_key_pem  
 }
 
 # Create a custom security group
