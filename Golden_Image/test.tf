@@ -260,14 +260,14 @@ resource "aws_security_group" "my_security_group" {
   }
 }
 
-# Launch multiple EC2 instances using the selected Golden AMI
-resource "aws_instance" "golden_ami_instance" {
-  count         = 1
-  ami           = var.golden_ami_ids[var.selected_ami_index]  
-  instance_type = "t2.micro"  
-  key_name      = aws_key_pair.my_key_pair.key_name
-  security_groups = [aws_security_group.my_security_group.name]
-  tags = {
-    Name = "Golden-AMI-Instance-${count.index + 1}"  
-  }
-}
+# # Launch multiple EC2 instances using the selected Golden AMI
+# resource "aws_instance" "golden_ami_instance2" {
+#   count         = 1
+#   ami           = var.golden_ami_ids[var.selected_ami_index]  
+#   instance_type = "t2.micro"  
+#   key_name      = aws_key_pair.my_key_pair.key_name
+#   security_groups = [aws_security_group.my_security_group.name]
+#   tags = {
+#     Name = "Golden-AMI-Instance-${count.index + 1}"  
+#   }
+# }
