@@ -6,7 +6,7 @@ resource "aws_instance" "golden_ami_instance" {
   instance_type        = "t2.micro"
   key_name             = aws_key_pair.my_key_pair.key_name
   iam_instance_profile = aws_iam_instance_profile.ec2_ssm_cw_profile.name
-  security_groups      = [aws_security_group.allow_ssh.name]
+  security_groups      = [aws_security_group.my_security_group.name]
  
   user_data = <<-EOF
               #!/bin/bash
@@ -16,7 +16,7 @@ resource "aws_instance" "golden_ami_instance" {
               systemctl start amazon-ssm-agent
               
               yum install -y amazon-cloudwatch-agent
-              echo '${data.template_file.cw_agent_config.rendered}' > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+              echo > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
               /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
               EOF
  
