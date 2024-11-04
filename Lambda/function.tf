@@ -108,6 +108,26 @@ environment {
   }
 }
 }
+
+# Create the Lambda function 2
+resource "aws_lambda_function" "ec2_monitoring_function1" {
+  function_name = "EC2MonitoringFunction1"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.9"
+  role          = aws_iam_role.lambda_execution_role.arn
+  memory_size   = 128
+  timeout       = 60
+ 
+  # Lambda function code
+ filename = "lambda_function.zip"  # Zip file containing your function code
+source_code_hash = "${data.archive_file.zipit.output_base64sha256}"
+
+environment {
+  variables = {
+    SNS_TOPIC_ARN = var.SNS_TOPIC_ARN
+  }
+}
+}
  
 # CloudWatch Event Rule to trigger the Lambda function periodically
 resource "aws_cloudwatch_event_rule" "every_two_hour" {
