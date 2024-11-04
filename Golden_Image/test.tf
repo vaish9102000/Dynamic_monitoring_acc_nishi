@@ -211,7 +211,7 @@ resource "aws_security_group" "my_security_group" {
   ingress {
     from_port   = 22
     to_port     = 22
-    protocol    = "SSH"
+    protocol    = "ssh"
     cidr_blocks = ["0.0.0.0/0"] 
   }
  
@@ -236,7 +236,7 @@ resource "aws_instance" "golden_ami_instance" {
   ami           = var.golden_ami_ids[var.selected_ami_index]  
   instance_type = "t2.micro"  
   key_name      = aws_key_pair.my_key_pair.key_name
-  security_groups = [aws_security_group.allow_ssh.name]
+  security_groups = [aws_security_group.my_security_group.name]
   tags = {
     Name = "Golden-AMI-Instance-${count.index + 1}"  
   }
