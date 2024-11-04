@@ -16,7 +16,7 @@ resource "aws_instance" "golden_ami_instance" {
               systemctl start amazon-ssm-agent
               
               yum install -y amazon-cloudwatch-agent
-              echo > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+              echo > '${data.aws_ssm_parameter.foo.value}' /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
               /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
               EOF
  
@@ -56,7 +56,21 @@ resource "aws_iam_policy" "ssm_cw_policy" {
           "logs:PutLogEvents",
           "logs:DescribeLogGroups",
           "ec2messages:*",
-          "ssmmessages:*"
+          "ssmmessages:*",
+          "ssm:DescribeAssociation",
+          "ssm:GetDeployablePatchSnapshotForInstance",
+          "ssm:GetDocument",
+          "ssm:DescribeDocument",
+          "ssm:GetManifest",
+          "ssm:GetParameters",
+          "ssm:ListAssociations",
+          "ssm:ListInstanceAssociations",
+          "ssm:PutInventory",
+          "ssm:PutComplianceItems",
+          "ssm:PutConfigurePackageResult",
+          "ssm:UpdateAssociationStatus",
+          "ssm:UpdateInstanceAssociationStatus",
+          "ssm:UpdateInstanceInformation"
         ],
         Resource: "*"
       }
