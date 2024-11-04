@@ -11,8 +11,7 @@ variable "golden_ami_ids" {
   description = "List of Golden AMI IDs to choose from"
   type        = list(string)
   default     = [
-    "ami-037774efca2da0726",  # Golden AMI 1
-    "ami-008687c5b5546727c",  # Golden AMI 2
-    "ami-050cd642fd83388e4",  # Golden AMI 3
+    "ami-050cd642fd83388e4",  # Golden AMI 1
+    "ami-0ea3c35c5c3284d82",  # Golden AMI 2
   ]
 }
