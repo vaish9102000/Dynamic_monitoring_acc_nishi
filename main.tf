@@ -6,7 +6,10 @@ module "Lambda" {
   SNS_TOPIC_ARN = module.SNS-SQS.SNS_TOPIC_ARN
 }
 
-
+module "Golden_Image" {
+  source = "./Golden_Image"
+  SNS_TOPIC_ARN = module.SNS-SQS.SNS_TOPIC_ARN
+}
 
 
 # module "s3" {
